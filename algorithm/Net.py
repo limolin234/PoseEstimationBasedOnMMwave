@@ -128,7 +128,7 @@ class Net(nn.Module):
         heatmaps = self.heatmap_head(feat)  # (B, K, 32, 16)
         heights = self.height_head(feat)  # (B, K)
 
-        return heatmaps, heights
+        return feat,heatmaps, heights
 
 model = Net()
 criterion = nn.MSELoss()
@@ -136,4 +136,5 @@ optimizer = torch.optim.AdamW(
     model.parameters(),
     lr=1e-3,
     weight_decay=1e-4
+
 )
