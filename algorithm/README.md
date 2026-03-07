@@ -1,6 +1,6 @@
 # 毫米波雷达人体识别算法
 ## 总体初步方案
-![](docs/picture/exported_image.png)
+![]([docs/picture/exported_image.png](https://github.com/limolin234/PoseEstimationBasedOnMMwave/blob/main/docs/picture/exported_image.png))
 ## 串口配置
    IWR6843 与 FT232、USB LDO
 ## 雷达数据解析
