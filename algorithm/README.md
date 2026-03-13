@@ -44,9 +44,16 @@ FPGA 端 UART 读取方式（比如 Pynq 的/dev/ttyPS0设备）
 步骤3：固定维度  
 步骤4：异常值过滤  
 
-## 四：点云特征提取
+## 四：转热图张量
+将毫米波点云转换为 Range-Azimuth Map (RAM)  
+    输入: points (N, 5) -> [x, y, z, v, snr]  
+    输出: ram_map (range_bins, angle_bins) -> 每个 cell 存最大 SNR 或点数  
+保留了设置get_stacked_ram_input堆叠多帧输入  
+### 优化方向：时序模型
+## 五：点云特征提取
 
-构造了Net神经网络结构如下：  
+构造了Net神经网络结构如下： 
+我们在这里讲人体姿态识别看做一个实例分割任务，采用了经典的U-net思路，分为编码器（下采样）、瓶颈层（特征融合）、解码器（上采样） 三大模块，核心是通过"下采样提取特征+上采样恢复尺寸+跳跃连接补充细节"实现精准分割。
 
 ### Backbone
 
@@ -68,9 +75,16 @@ FPGA 端 UART 读取方式（比如 Pynq 的/dev/ttyPS0设备）
 
 ### 优化方向：迁移学习 多尺度特征
 
-## 五：姿态分类
+## 六：姿态分类
 
 ClassifierNet  
 feat_type="keypoint"：输入 3D 关键点展平特征（14×3=42 维），轻量级全连接层分类；  
 feat_type="backbone"：输入 Net 网络骨干的卷积特征（64×8×4=2048 维），更复杂的全连接层分类。  
 两个神经网络采用分阶段训练  
+
+## 七：重构流程
+### 重构路线图
+模型加载层：将 .pth 权重转换为 NumPy 字典，或用 ONNX 替代。  
+算子映射层：建立 torch.nn.functional 到 numpy 的映射表（卷积、归一化、激活函数）。  
+数据流层：移除所有 .cuda(), .detach(), .numpy() 转换，统一使用 np.ndarray。  
+后处理层：将 Argmax/Softmax 等操作改为 NumPy 实现。  
