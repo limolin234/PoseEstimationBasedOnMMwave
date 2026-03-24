@@ -1,5 +1,14 @@
 # 毫米波雷达人体识别算法
 
+## 项目结构
+algoithm/  
+├── asserts/  图片示例  
+├── configs/  训练日志配置文件  
+├── datasets/ 数据集  
+├── models/   模型权重    
+├── results/  运行结果   
+├── scripts/  辅助脚本   
+└── operator/ 算子实现
 ## 总体初步方案
 
 ![方案流程图](../docs/picture/exported_image.png)

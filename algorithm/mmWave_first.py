@@ -1,10 +1,8 @@
 import torch
-import torch.nn as nn
-from data_analysis import radar_data_pipeline
-from preprocess import preprocess
+from PoseEstimationBasedOnMMwave.algorithm.scripts.data_analysis import radar_data_pipeline
+from PoseEstimationBasedOnMMwave.algorithm.scripts.preprocess import preprocess
 from Net import Net
-from RAM import heatmap_to_3d,pointcloud_to_ram,get_stacked_ram_input
-from ClassifierNet import PoseClassifier
+from PoseEstimationBasedOnMMwave.algorithm.scripts.RAM import heatmap_to_3d,pointcloud_to_ram,get_stacked_ram_input
 "模型的推理"
 # ====================== 1. 配置参数 ======================
 # 串口配置
